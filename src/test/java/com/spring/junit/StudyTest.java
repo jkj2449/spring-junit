@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assumptions.assumingThat;
 class StudyTest {
     @Test
     @DisplayName("스터디 만들기")
+    @Tag("fast")
     void create_new_study() {
         Study study = new Study(-10);
         assertAll(
