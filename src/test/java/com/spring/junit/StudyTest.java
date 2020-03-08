@@ -2,6 +2,7 @@ package com.spring.junit;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
@@ -14,8 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assumptions.assumingThat;
 
+@ExtendWith(FindSlowTestExtension.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest {
+
+    /*@RegisterExtension
+    static FindSlowTestExtension findSlowTestExtension = new FindSlowTestExtension();*/
+
     @Test
     @DisplayName("스터디 만들기")
     @Tag("fast")
@@ -29,7 +35,8 @@ class StudyTest {
     }
 
     @Test
-    void create_new_study_throw() {
+    void create_new_study_throw() throws InterruptedException {
+        Thread.sleep(1500);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new Study(-10));
         assertEquals("limit은 0보다 커야 된다.", exception.getMessage());
         System.out.println("create1");
