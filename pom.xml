@@ -76,9 +76,6 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <groups>fast | slow</groups>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
