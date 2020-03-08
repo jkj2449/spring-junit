@@ -1,10 +1,13 @@
 package com.spring.junit;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.*;
 
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest {
@@ -33,6 +36,23 @@ class StudyTest {
             new Study(10);
             Thread.sleep(1000);
         });
+    }
+
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    @DisabledOnOs(OS.MAC)
+    @EnabledOnJre(JRE.JAVA_9)
+    //@EnabledIfEnvironmentVariable(name = "TEST_ENV", matches = "LOCAL")
+    void create_new_study_assume() {
+        String env = "TEST_ENV";
+        assumeTrue("LOCAL".equalsIgnoreCase(System.getenv(env))); // 해당 조건이 성립해야 다음 프로세스 실행.
+
+        assumingThat("LOCAL".equalsIgnoreCase(System.getenv(env)), () -> {
+
+        });
+
+        Study study = new Study(-10);
+        assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능인원은 0보다 커야 된다.");
     }
 
     @BeforeAll // static method 사용, return type 없어야함, private 안됨.
