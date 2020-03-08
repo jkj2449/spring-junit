@@ -20,7 +20,7 @@ class StudyTest {
     @DisplayName("스터디 만들기")
     @Tag("fast")
     void create_new_study() {
-        Study study = new Study(-10);
+        Study study = new Study(1);
         assertAll(
                 () -> assertNotNull(study),
                 () -> assertEquals(StudyStatus.DRAFT, study.getStatus(), "스터디를 처음 만들면 상태값이 DRFAT여야 한다."),
@@ -36,6 +36,7 @@ class StudyTest {
     }
 
     @Test
+    @Disabled
     void create_new_study_timeout() {
         assertTimeout(Duration.ofMillis(100), () -> {
             new Study(10);
