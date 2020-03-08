@@ -2,6 +2,11 @@ package com.spring.junit;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ArgumentConversionException;
+import org.junit.jupiter.params.converter.ConvertWith;
+import org.junit.jupiter.params.converter.SimpleArgumentConverter;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Duration;
 
@@ -21,7 +26,6 @@ class StudyTest {
                 () -> assertEquals(StudyStatus.DRAFT, study.getStatus(), "스터디를 처음 만들면 상태값이 DRFAT여야 한다."),
                 () -> assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능인원은 0보다 커야 된다.")
         );
-
     }
 
     @Test
@@ -54,6 +58,33 @@ class StudyTest {
 
         Study study = new Study(-10);
         assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능인원은 0보다 커야 된다.");
+    }
+
+    @DisplayName("반복 테스트")
+    @RepeatedTest(value = 10)
+    void repeatTest(RepetitionInfo info) {
+        System.out.println("repeat test " + info.getCurrentRepetition() + "/" + info.getTotalRepetitions() );
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings =  {"날씨가", "많이", "추워지고 있네요"})
+    void parameterizedTest(String message) {
+        System.out.println(message);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints =  {10, 20, 30})
+    void parameterizedTest(@ConvertWith(StudyConverter.class) Study study) {
+        System.out.println(study.getLimit());
+    }
+
+    static class StudyConverter extends SimpleArgumentConverter {
+
+        @Override
+        protected Object convert(Object o, Class<?> aClass) throws ArgumentConversionException {
+            assertEquals(Study.class, aClass, "Can only convert to Study");
+            return new Study(Integer.parseInt(o.toString()));
+        }
     }
 
     @BeforeAll // static method 사용, return type 없어야함, private 안됨.
