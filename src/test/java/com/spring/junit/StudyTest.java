@@ -1,5 +1,7 @@
 package com.spring.junit;
 
+import com.spring.junit.domain.Study;
+import com.spring.junit.study.StudyStatus;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +32,7 @@ class StudyTest {
         assertAll(
                 () -> assertNotNull(study),
                 () -> assertEquals(StudyStatus.DRAFT, study.getStatus(), "스터디를 처음 만들면 상태값이 DRFAT여야 한다."),
-                () -> assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능인원은 0보다 커야 된다.")
+                () -> assertTrue(study.getLimitCount() > 0, "스터디 최대 참석 가능인원은 0보다 커야 된다.")
         );
     }
 
@@ -65,7 +67,7 @@ class StudyTest {
         });
 
         Study study = new Study(-10);
-        assertTrue(study.getLimit() > 0, "스터디 최대 참석 가능인원은 0보다 커야 된다.");
+        assertTrue(study.getLimitCount() > 0, "스터디 최대 참석 가능인원은 0보다 커야 된다.");
     }
 
     @DisplayName("반복 테스트")
@@ -83,7 +85,7 @@ class StudyTest {
     @ParameterizedTest
     @ValueSource(ints =  {10, 20, 30})
     void parameterizedTest(@ConvertWith(StudyConverter.class) Study study) {
-        System.out.println(study.getLimit());
+        System.out.println(study.getLimitCount());
     }
 
     static class StudyConverter extends SimpleArgumentConverter {

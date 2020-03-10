@@ -1,0 +1,5 @@
+package com.spring.junit.study;
+
+public enum StudyStatus {
+    DRAFT, STARTED, ENDED, OPENED
+}
