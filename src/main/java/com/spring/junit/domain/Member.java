@@ -1,15 +1,14 @@
 package com.spring.junit.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
 public class Member {
@@ -20,4 +19,9 @@ public class Member {
 
     private String email;
 
+    @Builder
+    public Member(Long id, String email) {
+        this.id = id;
+        this.email = email;
+    }
 }

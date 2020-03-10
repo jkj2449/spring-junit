@@ -1,6 +1,7 @@
 package com.spring.junit.domain;
 
 import com.spring.junit.study.StudyStatus;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,8 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @Entity
 public class Study {
@@ -28,6 +29,16 @@ public class Study {
     public Study(int limit, String name) {
         this.limitCount = limit;
         this.name = name;
+    }
+
+    @Builder
+    public Study(Long id, StudyStatus status, int limitCount, String name, LocalDateTime openedDateTime, Member owner) {
+        this.id = id;
+        this.status = status;
+        this.limitCount = limitCount;
+        this.name = name;
+        this.openedDateTime = openedDateTime;
+        this.owner = owner;
     }
 
     public Study(int limit) {
